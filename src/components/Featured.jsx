@@ -1,4 +1,4 @@
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../sheared/SectionTitle";
 import featured from '../assets/featured.jpg';
 import './Featured.css'
 
