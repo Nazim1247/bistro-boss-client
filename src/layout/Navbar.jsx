@@ -1,16 +1,37 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
+import { toast } from "react-toastify";
 
 
 const Navbar = () => {
+  const {users,logoutUser} = useContext(AuthContext);
+
+  const handleLogout = ()=>{
+    logoutUser()
+    .then(()=>{
+      toast.success('User logout successfully!')
+    })
+    .catch(error =>{
+      console.log(error.message)
+    })
+  }
 
     const links = <>
     <li><Link to='/'>Home</Link></li>
     <li><Link to='/menu'>Our Menu</Link></li>
     <li><Link to='/order/salad'>Order Food</Link></li>
+    <li><Link to='/secrete'>Secrete</Link></li>
+    {/* {
+      users && <>
+      <li><Link to='/secrete'>Secrete</Link></li>
+      </>
+    } */}
     </>
+    
     return (
         <div>
-            <div className="navbar fixed z-10 bg-opacity-50 bg-black text-white max-w-[1280px]">
+            <div className="navbar fixed z-10 bg-opacity-50 bg-blue-600 text-white max-w-[1280px]">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -41,7 +62,16 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Button</a>
+  {
+      users ? <>
+      <img title={users?.displayName} className="w-12 h-12 rounded-full mr-2" src={users?.photoURL} alt="" />
+      <button onClick={handleLogout} className="btn btn-ghost">Logout</button>
+      </> 
+      : 
+      <>
+      <li><Link to='/login'>Login</Link></li>
+      </>
+    }
   </div>
 </div>
         </div>
