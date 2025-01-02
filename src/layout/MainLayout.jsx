@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 
 const MainLayout = () => {
     const location = useLocation();
-    console.log(location)
+    // console.log(location)
     const noHeaderFooter = location.pathname.includes('login') || location.pathname.includes('register');
     return (
         <div className="max-w-[1280px] mx-auto">
