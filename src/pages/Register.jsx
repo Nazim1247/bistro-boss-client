@@ -5,7 +5,10 @@ import { AuthContext } from '../provider/AuthProvider';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import useAxiosPublic from '../hooks/useAxiospublic';
+import SocialLogin from '../social/SocialLogin';
 const Register = () => {
+  const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
     const {createUser,updateUserProfile} = useContext(AuthContext);
     const {
@@ -22,8 +25,18 @@ const Register = () => {
 
             updateUserProfile(data.name, data.photo)
             .then(()=>{
-                toast.success('Register Done Successfully!!')
-                navigate('/')
+              const userInfo = {
+                name: data.name,
+                email: data.email,
+              }
+              axiosPublic.post('/users',userInfo)
+              .then(res =>{
+                if(res.data.insertedId){
+                  console.log('user added')
+                  toast.success('Register Done Successfully!!')
+                  navigate('/')
+                }
+              })
             })
             .catch(err =>{
                 console.log(err.message)
@@ -55,6 +68,8 @@ const Register = () => {
     </div>
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <form onSubmit={handleSubmit(onSubmit)} className="card-body">
+      <p className='text-center mb-6'>Already Have an Account? <Link to={'/login'} className='text-red-600'>Login</Link></p>
+      <SocialLogin></SocialLogin>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Name</span>
@@ -88,7 +103,7 @@ const Register = () => {
           <input type='submit' value='Register' className="btn btn-primary"/>
         </div>
       </form>
-      <p className='text-center mb-6'>Already Have an Account? <Link to={'/login'} className='text-red-600'>Login</Link></p>
+      
     </div>
   </div>
 </div>

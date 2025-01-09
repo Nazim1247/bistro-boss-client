@@ -4,6 +4,7 @@ import { AuthContext } from '../provider/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet';
+import SocialLogin from '../social/SocialLogin';
 
 const Login = () => {
     const {loginUser} = useContext(AuthContext);
@@ -23,7 +24,7 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email,password)
+        // console.log(email,password)
 
         loginUser(email,password)
         .then(result =>{
@@ -59,6 +60,8 @@ const Login = () => {
     </div>
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <form onSubmit={handleSubmit} className="card-body">
+      <p className='text-center mb-6'>New to this Page? <Link to={'/register'} className='text-red-600'>Register</Link></p>
+        <SocialLogin></SocialLogin>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Email</span>
@@ -87,7 +90,7 @@ const Login = () => {
           <button disabled={disabled} className="btn btn-primary">Login</button>
         </div>
       </form>
-      <p className='text-center mb-6'>New to this Page? <Link to={'/register'} className='text-red-600'>Register</Link></p>
+      
     </div>
   </div>
 </div>
